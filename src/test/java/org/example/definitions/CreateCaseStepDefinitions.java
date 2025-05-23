@@ -1,103 +1,92 @@
 package org.example.definitions;
 
-
 import io.cucumber.java.en.*;
-import io.restassured.http.ContentType;
-import net.serenitybdd.rest.SerenityRest;
-//import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
-import static org.hamcrest.Matchers.*;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
-
-import io.cucumber.java.en.Given;
 import net.serenitybdd.core.Serenity;
+import net.serenitybdd.rest.SerenityRest;
+import net.thucydides.core.environment.SystemEnvironmentVariables;
+import net.thucydides.core.util.EnvironmentVariables;
+//import net.thucydides.core.util.SystemEnvironmentVariables;
 
 import java.util.Base64;
 
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
 
 public class CreateCaseStepDefinitions {
 
-//    private String accessToken;
+    private final String baseUrl;
+    private final String clientId;
+    private final String clientSecret;
+    private final String username;
+    private final String password;
+
+    private String accessToken;
     private Response response;
 
-//    @Given("I have a valid access token")
-//    public void i_have_a_valid_access_token() {
-//        response = SerenityRest
-//                .given()
-//                    .contentType(ContentType.JSON)
-//                    .formParam("grant_type", "client_credentials")
-//                    .formParam("client_id", System.getProperty("client.id"))
-//                    .formParam("client_secret", System.getProperty("client.secret"))
-//                .when()
-//                    .post(System.getProperty("base.url") + "/prweb/PRRestService/oauth2/v1/token");
-//
-//        response.then().statusCode(200);
-//        accessToken = response.jsonPath().getString("access_token");
-//    }
-
-
-
+    public CreateCaseStepDefinitions() {
+        EnvironmentVariables env = SystemEnvironmentVariables.createEnvironmentVariables();
+        this.baseUrl = env.getProperty("base.url");
+        this.clientId = env.getProperty("client.id");
+        this.clientSecret = env.getProperty("client.secret");
+        this.username = env.getProperty("username");
+        this.password = env.getProperty("password");
+    }
 
     @Given("I have a valid access token")
     public void i_have_a_valid_access_token() {
-        String baseUrl = System.getProperty("base.url");
-        String clientId = System.getProperty("client.id");
-        String clientSecret = System.getProperty("client.secret");
+        RestAssured.useRelaxedHTTPSValidation();
 
-        baseUrl = "https://qzzoaeeb.pegaacademy.net";
-        clientId = "51744799296870571382";
-        clientSecret = "0C92DBD52770B18266103F6C5C3C96F2";
-
-        String url = baseUrl + "/prweb/PRRestService/oauth2/v1/token";
-
-        // Debug print
-        System.out.println("BASE_URL: " + baseUrl);
-        System.out.println("URL: " + url);
-        System.out.println("CLIENT_ID: " + clientId);
-        System.out.println("CLIENT_SECRET: " + (clientSecret != null ? "***" : "null"));
-
-        String basicAuth = Base64.getEncoder()
-                .encodeToString((clientId + ":" + clientSecret).getBytes());
-
-        System.out.println("Basic Auth: " + basicAuth);
-        Response response = SerenityRest
+        response = SerenityRest
                 .given()
-//                .relaxedHTTPSValidation() // if needed
-                .header("Authorization", "Basic " + basicAuth)
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .formParam("grant_type", "client_credentials")
+                .contentType("application/x-www-form-urlencoded")
+                .formParam("grant_type", "password")
+                .formParam("client_id", clientId)
+                .formParam("client_secret", clientSecret)
+                .formParam("username", username)
+                .formParam("password", password)
                 .when()
                 .post(baseUrl + "/prweb/PRRestService/oauth2/v1/token");
 
-        response.then().log().all(); // log full response
+        response.then().log().all();
 
-        // Store token for next steps
-        String token = response.jsonPath().getString("access_token");
-        Serenity.setSessionVariable("accessToken").to(token);
+        accessToken = response.jsonPath().getString("access_token");
+        Serenity.setSessionVariable("accessToken").to(accessToken);
     }
-
 
     @When("I create a new case")
     public void i_create_a_new_case() {
-//        String payload = """
-//            {
-//                "caseTypeID": "GoGo-GoGoRoad-Work-AssistanceRequest",
-//                "processID": "pyStartCase",
-//                "parentCaseID": "",
-//                "content": {}
-//            }
-//        """;
-//
-//        response = SerenityRest
-//                .given()
-//                .header("Authorization", "Bearer " + accessToken)
-//                .contentType("application/json")
-//                .body(payload)
-//                .when()
-//                .post(System.getenv("BASE_URL") + "/prweb/api/application/v2/cases?viewType=none");
+        String payload = """
+        {
+            "content": {
+                "pyDescription": "Description"
+            },
+            "caseTypeID": "SL-TellUsMore-Work-Incident",
+            "processID": "pyStartCase",
+            "parentCaseID": ""
+        }
+        """;
+
+        response = SerenityRest
+                .given()
+                .relaxedHTTPSValidation()
+                .header("Authorization", "Bearer " + accessToken)
+                .header("x-origin-channel", "Web")
+                .header("Accept", "application/json")
+                .contentType("application/json")
+                .body(payload)
+                .when()
+                .post(baseUrl + "/prweb/api/application/v2/cases?viewType=none");
+
+        response.then().log().all();
+
+        String caseId = response.jsonPath().getString("ID");
+        Serenity.setSessionVariable("caseID").to(caseId);
     }
 
     @Then("the case is created successfully")
     public void case_created_successfully() {
-//        response.then().statusCode(anyOf(is(200), is(201), is(202)));
+        response.then().statusCode(anyOf(is(200), is(201), is(202)));
     }
 }
