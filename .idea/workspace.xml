@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c34a9d7-06e0-4844-bceb-d8e88fb27546" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/runner/SerenityApiTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serenity.properties" beforeDir="false" afterPath="$PROJECT_DIR$/serenity.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/runner/SerenityAPITestRunner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
