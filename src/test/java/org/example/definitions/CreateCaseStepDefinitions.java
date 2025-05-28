@@ -7,9 +7,7 @@ import net.serenitybdd.core.Serenity;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.environment.SystemEnvironmentVariables;
 import net.thucydides.core.util.EnvironmentVariables;
-//import net.thucydides.core.util.SystemEnvironmentVariables;
 
-import java.util.Base64;
 
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.is;
@@ -22,7 +20,6 @@ public class CreateCaseStepDefinitions {
     private final String username;
     private final String password;
 
-    private String accessToken;
     private Response response;
 
     public CreateCaseStepDefinitions() {
@@ -51,8 +48,8 @@ public class CreateCaseStepDefinitions {
 
         response.then().log().all();
 
-        accessToken = response.jsonPath().getString("access_token");
-        Serenity.setSessionVariable("accessToken").to(accessToken);
+        String accessToken = response.jsonPath().getString("access_token");
+        SessionContext.setAccessToken(accessToken);
     }
 
     @When("I create a new case")
@@ -71,7 +68,7 @@ public class CreateCaseStepDefinitions {
         response = SerenityRest
                 .given()
                 .relaxedHTTPSValidation()
-                .header("Authorization", "Bearer " + accessToken)
+                .header("Authorization", "Bearer " + SessionContext.getAccessToken())
                 .header("x-origin-channel", "Web")
                 .header("Accept", "application/json")
                 .contentType("application/json")

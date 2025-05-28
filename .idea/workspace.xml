@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c34a9d7-06e0-4844-bceb-d8e88fb27546" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/definitions/AssignmentStepDefinitions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/definitions/SessionContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/features/assignement.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serenity.properties" beforeDir="false" afterPath="$PROJECT_DIR$/serenity.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/definitions/CreateCaseStepDefinitions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/definitions/CreateCaseStepDefinitions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,19 +38,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Cucumber Java.Feature: create_case.executor": "Debug",
-    "Cucumber Java.Scenario: Create a new AssistanceRequest case.executor": "Run",
-    "Cucumber Java.Scenario: Create a new Incident case.executor": "Run",
-    "Cucumber Java.Scenario: Create a new TellUsMore-Work-Incident case.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "local",
-    "last_opened_file_path": "/Users/christoph.henzelmann/repos/Serenity-BDD-with-Cucumber-and-Rest-Assured"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Cucumber Java.Feature: create_case.executor&quot;: &quot;Debug&quot;,
+    &quot;Cucumber Java.Scenario: Create a new AssistanceRequest case.executor&quot;: &quot;Run&quot;,
+    &quot;Cucumber Java.Scenario: Create a new Incident case.executor&quot;: &quot;Run&quot;,
+    &quot;Cucumber Java.Scenario: Create a new TellUsMore-Work-Incident case.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;local&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/christoph.henzelmann/repos/Serenity-BDD-with-Cucumber-and-Rest-Assured&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Cucumber Java.Feature: create_case">
     <configuration name="Feature: create_case" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
