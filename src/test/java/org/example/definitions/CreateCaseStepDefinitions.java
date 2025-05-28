@@ -7,6 +7,7 @@ import net.serenitybdd.core.Serenity;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.environment.SystemEnvironmentVariables;
 import net.thucydides.core.util.EnvironmentVariables;
+import org.example.helper.RequestHelper;
 
 
 import static org.hamcrest.Matchers.anyOf;
@@ -65,10 +66,7 @@ public class CreateCaseStepDefinitions {
         }
         """;
 
-        response = SerenityRest
-                .given()
-                .relaxedHTTPSValidation()
-                .header("Authorization", "Bearer " + SessionContext.getAccessToken())
+        response = RequestHelper.authRequest()
                 .header("x-origin-channel", "Web")
                 .header("Accept", "application/json")
                 .contentType("application/json")

@@ -6,6 +6,7 @@ import net.serenitybdd.core.Serenity;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.environment.SystemEnvironmentVariables;
 import net.thucydides.core.util.EnvironmentVariables;
+import org.example.helper.RequestHelper;
 
 import static org.hamcrest.Matchers.*;
 
@@ -23,11 +24,7 @@ public class AssignmentStepDefinitions {
     public void getAssignmentDetails() {
         String assignmentId = Serenity.sessionVariableCalled("assignmentID");
 
-        response = SerenityRest
-                .given()
-                .relaxedHTTPSValidation()
-                .header("Authorization", "Bearer " + SessionContext.getAccessToken())
-                .accept("application/json")
+        response = RequestHelper.authRequest()
                 .queryParam("viewType", "page")
                 .queryParam("pageName", "")
                 .get(baseUrl +"/prweb/api/application/v2/assignments/" + assignmentId);
@@ -42,11 +39,7 @@ public class AssignmentStepDefinitions {
 
     @When("I request the submit action details for assignment {string} and action {string}")
     public void getSubmitActionDetails(String assignmentId, String actionId) {
-        response = SerenityRest
-                .given()
-                .relaxedHTTPSValidation()
-                .header("Authorization", "Bearer " + SessionContext.getAccessToken())
-                .accept("application/json")
+        response = RequestHelper.authRequest()
                 .when()
                 .get("/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
     }
@@ -60,11 +53,7 @@ public class AssignmentStepDefinitions {
     public void performSubmitAction(String actionId, String assignmentId) {
         String payload = "{}";
 
-        response = SerenityRest
-                .given()
-                .relaxedHTTPSValidation()
-                .header("Authorization", "Bearer " + SessionContext.getAccessToken())
-                .contentType("application/json")
+        response = RequestHelper.authRequest()
                 .body(payload)
                 .when()
                 .post("/prweb/api/application/v2/assignments/" + assignmentId);
