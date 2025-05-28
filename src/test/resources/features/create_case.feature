@@ -5,5 +5,5 @@ Feature: Create and process a Pega case
     When I create a new case
     Then the case is created successfully
     When I request the assignment details
-#    Then the assignment details are returned
+    Then the assignment details are returned
 

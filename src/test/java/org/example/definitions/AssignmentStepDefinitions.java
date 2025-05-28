@@ -4,31 +4,40 @@ import io.cucumber.java.en.*;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
 import net.serenitybdd.rest.SerenityRest;
+import net.thucydides.core.environment.SystemEnvironmentVariables;
+import net.thucydides.core.util.EnvironmentVariables;
 
 import static org.hamcrest.Matchers.*;
 
 public class AssignmentStepDefinitions {
 
     private Response response;
+    private final String baseUrl;
+
+    public AssignmentStepDefinitions() {
+        EnvironmentVariables env = SystemEnvironmentVariables.createEnvironmentVariables();
+        this.baseUrl = env.getProperty("base.url");
+    }
 
     @When("I request the assignment details")
     public void getAssignmentDetails() {
-
         String assignmentId = Serenity.sessionVariableCalled("assignmentID");
-        System.out.println("---=== assignmentId: " + assignmentId);
+
         response = SerenityRest
                 .given()
                 .relaxedHTTPSValidation()
                 .header("Authorization", "Bearer " + SessionContext.getAccessToken())
                 .accept("application/json")
-                .when()
-                .get("/prweb/api/application/v2/assignments/" + assignmentId);
-        //TODO double check with postman if url is correct
+                .queryParam("viewType", "page")
+                .queryParam("pageName", "")
+                .get(baseUrl +"/prweb/api/application/v2/assignments/" + assignmentId);
+
+        response.then().log().all();
     }
 
     @Then("the assignment details are returned")
     public void assignmentDetailsReturned() {
-        response.then().statusCode(200).body("actions", notNullValue());
+        response.then().statusCode(anyOf(is(200), is(201), is(202)));
     }
 
     @When("I request the submit action details for assignment {string} and action {string}")

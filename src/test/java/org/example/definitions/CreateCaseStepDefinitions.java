@@ -82,7 +82,6 @@ public class CreateCaseStepDefinitions {
         Serenity.setSessionVariable("caseID").to(caseId);
 
         String assignmentId = response.jsonPath().getString("nextAssignmentInfo.ID");
-        System.out.println("SET ---=== assignmentId: " + assignmentId);
 
         Serenity.setSessionVariable("assignmentID").to(assignmentId);
     }
