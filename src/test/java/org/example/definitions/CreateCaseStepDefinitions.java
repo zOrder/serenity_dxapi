@@ -8,10 +8,9 @@ import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.environment.SystemEnvironmentVariables;
 import net.thucydides.core.util.EnvironmentVariables;
 import org.example.helper.RequestHelper;
+import org.example.helper.ResponseHelper;
+import org.example.helper.SessionContext;
 
-
-import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.is;
 
 public class CreateCaseStepDefinitions {
 
@@ -86,6 +85,6 @@ public class CreateCaseStepDefinitions {
 
     @Then("the case is created successfully")
     public void case_created_successfully() {
-        response.then().statusCode(anyOf(is(200), is(201), is(202)));
+        ResponseHelper.assertSuccessfulResponse(response);
     }
 }

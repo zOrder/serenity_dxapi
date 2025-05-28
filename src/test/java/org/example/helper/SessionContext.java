@@ -1,4 +1,4 @@
-package org.example.definitions;
+package org.example.helper;
 
 public class SessionContext {
     private static String accessToken;

@@ -3,10 +3,10 @@ package org.example.definitions;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
 import net.serenitybdd.core.Serenity;
-import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.environment.SystemEnvironmentVariables;
 import net.thucydides.core.util.EnvironmentVariables;
 import org.example.helper.RequestHelper;
+import org.example.helper.ResponseHelper;
 
 import static org.hamcrest.Matchers.*;
 
@@ -61,6 +61,6 @@ public class AssignmentStepDefinitions {
 
     @Then("the assignment is successfully submitted")
     public void assignmentSubmitted() {
-        response.then().statusCode(anyOf(is(200), is(201), is(204)));
+        ResponseHelper.assertSuccessfulResponse(response);
     }
 }

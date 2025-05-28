@@ -2,7 +2,6 @@ package org.example.helper;
 
 import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.rest.SerenityRest;
-import org.example.definitions.SessionContext;
 
 public class RequestHelper {
     public static RequestSpecification authRequest() {
