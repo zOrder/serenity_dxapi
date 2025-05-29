@@ -32,7 +32,6 @@ public class AssignmentStepDefinitions {
 //        response.then().log().all();
         String eTag = response.getHeader("etag");
         System.out.println("📦 eTag: " + eTag);
-
         Serenity.setSessionVariable("eTag").to(eTag);
     }
 
@@ -46,17 +45,48 @@ public class AssignmentStepDefinitions {
         String assignmentId = Serenity.sessionVariableCalled("assignmentID");
         String eTag = Serenity.sessionVariableCalled("eTag");
         String actionId = "DetermineCategory";
-//        actionId = "ContactInfo";
-
 
         String payload = """
-    {
-        "content": {
-            "IncidentType": "Product faulty or unsafe",
-            "IncidentSubType": "Product not as described"            
+        {
+            "content": {
+                "IncidentType": "Product faulty or unsafe",
+                "IncidentSubType": "Product not as described"
+            }
         }
+        """;
+
+        response = RequestHelper.authRequest()
+                .header("If-Match", eTag)
+                .header("x-origin-channel", "Web")
+                .contentType("application/json")
+                .accept("application/json")
+                .queryParam("viewType", "none")
+                .body(payload)
+                .log().all()
+                .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
+
+//        response.then().log().all();
+        //TODO extract getting etag to helper
+        eTag = response.getHeader("etag");
+        System.out.println("📦 eTag: " + eTag);
+        Serenity.setSessionVariable("eTag").to(eTag);
     }
-    """;
+
+
+    @When("I perform update on the assignment service details")
+    public void performAssignmentServiceUpdate() {
+        String assignmentId = Serenity.sessionVariableCalled("assignmentID");
+        String eTag = Serenity.sessionVariableCalled("eTag");
+        String actionId = "ServiceDetails";
+
+        String payload = """
+        {
+          "content": {
+            "WhatHappened": "The product arrived damaged and missing components.",
+            "WhenDidThisHappen": "2025-05-28"
+          }
+        }
+        """;
 
         response = RequestHelper.authRequest()
                 .header("If-Match", eTag)
