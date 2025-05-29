@@ -100,6 +100,37 @@ public class AssignmentStepDefinitions {
                 .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
 
         response.then().log().all();
+
+
+        //TODO extract getting etag to helper
+        eTag = response.getHeader("etag");
+        System.out.println("📦 eTag: " + eTag);
+        Serenity.setSessionVariable("eTag").to(eTag);
+    }
+
+    @When("I perform update on the assignment customer details")
+    public void performUpdateOnAssignmentCustomerDetails() {
+        String assignmentId = Serenity.sessionVariableCalled("assignmentID");
+        String eTag = Serenity.sessionVariableCalled("eTag");
+        String actionId = "ContactInfo";
+
+        String payload = """
+    
+{"content":{"Customer":{"Address":{"pyLocation":{"pyLatLon":"49.6205744, 7.192470500000001"},"pyStreetAddress":"Maibachufer","pyCity":"Berlin","pyPostalCode":"10969","pyCountry":"USA","pyStreetAddress2":"12","pyState":"AL"},"FName":"Horstiii","LName":"Antonna,sd","EMail":"adsd@gmai.com","PhoneNumber":"+489873928793","AddressMode":"Manually"}},"pageInstructions":[]}
+    
+    """;
+
+        response = RequestHelper.authRequest()
+                .header("If-Match", eTag)
+                .header("x-origin-channel", "Web")
+                .contentType("application/json")
+                .accept("application/json")
+                .queryParam("viewType", "none")
+                .body(payload)
+                .log().all()
+                .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
+
+        response.then().log().all();
     }
 
     @Then("the assignment details are updated")

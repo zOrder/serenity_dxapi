@@ -10,4 +10,6 @@ Feature: Create and process a Pega case
     Then the assignment details are updated
     When I perform update on the assignment service details
     Then the assignment details are updated
+    When I perform update on the assignment customer details
+    Then the assignment details are updated
 
