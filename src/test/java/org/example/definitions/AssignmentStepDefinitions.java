@@ -49,8 +49,8 @@ public class AssignmentStepDefinitions {
         String payload = """
         {
             "content": {
-                "IncidentType": "Product faulty or unsafe",
-                "IncidentSubType": "Product not as described"
+                "IncidentType": "Customer service issue",
+                "IncidentSubType": "Complaint not handled as requested"
             }
         }
         """;
@@ -82,6 +82,7 @@ public class AssignmentStepDefinitions {
         String payload = """
         {
           "content": {
+            "CommunicationChannel": "In person",
             "WhatHappened": "The product arrived damaged and missing components.",
             "WhenDidThisHappen": "2025-05-28"
           }
