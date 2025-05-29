@@ -1,0 +1,23 @@
+{
+  "content": {
+    "Customer": {
+      "Address": {
+        "pyLocation": {
+          "pyLatLon": "49.6205744, 7.192470500000001"
+        },
+        "pyStreetAddress": "Maibachufer",
+        "pyCity": "Berlin",
+        "pyPostalCode": "10969",
+        "pyCountry": "USA",
+        "pyStreetAddress2": "12",
+        "pyState": "AL"
+      },
+      "FName": "Horstiii",
+      "LName": "Seehofer",
+      "EMail": "adsd@gmai.com",
+      "PhoneNumber": "+489873928793",
+      "AddressMode": "Manually"
+    }
+  },
+  "pageInstructions": []
+}

@@ -8,6 +8,10 @@ import net.thucydides.core.util.EnvironmentVariables;
 import org.example.helper.RequestHelper;
 import org.example.helper.ResponseHelper;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static org.hamcrest.Matchers.*;
 
 public class AssignmentStepDefinitions {
@@ -109,16 +113,12 @@ public class AssignmentStepDefinitions {
     }
 
     @When("I perform update on the assignment customer details")
-    public void performUpdateOnAssignmentCustomerDetails() {
+    public void performUpdateOnAssignmentCustomerDetails() throws IOException {
         String assignmentId = Serenity.sessionVariableCalled("assignmentID");
         String eTag = Serenity.sessionVariableCalled("eTag");
         String actionId = "ContactInfo";
-
-        String payload = """
-    
-{"content":{"Customer":{"Address":{"pyLocation":{"pyLatLon":"49.6205744, 7.192470500000001"},"pyStreetAddress":"Maibachufer","pyCity":"Berlin","pyPostalCode":"10969","pyCountry":"USA","pyStreetAddress2":"12","pyState":"AL"},"FName":"Horstiii","LName":"Antonna,sd","EMail":"adsd@gmai.com","PhoneNumber":"+489873928793","AddressMode":"Manually"}},"pageInstructions":[]}
-    
-    """;
+        String payloadPath = "src/test/resources/payloads/customer_details_payload.json";
+        String payload = Files.readString(Paths.get(payloadPath));
 
         response = RequestHelper.authRequest()
                 .header("If-Match", eTag)
