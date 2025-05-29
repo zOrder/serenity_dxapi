@@ -29,7 +29,11 @@ public class AssignmentStepDefinitions {
                 .queryParam("pageName", "")
                 .get(baseUrl +"/prweb/api/application/v2/assignments/" + assignmentId);
 
-        response.then().log().all();
+//        response.then().log().all();
+        String eTag = response.getHeader("etag");
+        System.out.println("📦 eTag: " + eTag);
+
+        Serenity.setSessionVariable("eTag").to(eTag);
     }
 
     @Then("the assignment details are returned")
