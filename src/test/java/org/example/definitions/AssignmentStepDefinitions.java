@@ -33,10 +33,7 @@ public class AssignmentStepDefinitions {
                 .queryParam("pageName", "")
                 .get(baseUrl +"/prweb/api/application/v2/assignments/" + assignmentId);
 
-//        response.then().log().all();
-        String eTag = response.getHeader("etag");
-        System.out.println("📦 eTag: " + eTag);
-        Serenity.setSessionVariable("eTag").to(eTag);
+        ResponseHelper.storeETag(response);
     }
 
     @Then("the assignment details are returned")
@@ -69,11 +66,7 @@ public class AssignmentStepDefinitions {
                 .log().all()
                 .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
 
-//        response.then().log().all();
-        //TODO extract getting etag to helper
-        eTag = response.getHeader("etag");
-        System.out.println("📦 eTag: " + eTag);
-        Serenity.setSessionVariable("eTag").to(eTag);
+        ResponseHelper.storeETag(response);
     }
 
 
@@ -103,13 +96,7 @@ public class AssignmentStepDefinitions {
                 .log().all()
                 .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
 
-        response.then().log().all();
-
-
-        //TODO extract getting etag to helper
-        eTag = response.getHeader("etag");
-        System.out.println("📦 eTag: " + eTag);
-        Serenity.setSessionVariable("eTag").to(eTag);
+        ResponseHelper.storeETag(response);
     }
 
     @When("I perform update on the assignment customer details")
