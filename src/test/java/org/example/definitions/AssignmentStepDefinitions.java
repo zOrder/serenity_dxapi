@@ -41,30 +41,38 @@ public class AssignmentStepDefinitions {
         response.then().statusCode(anyOf(is(200), is(201), is(202)));
     }
 
-    @When("I request the submit action details for assignment {string} and action {string}")
-    public void getSubmitActionDetails(String assignmentId, String actionId) {
-        response = RequestHelper.authRequest()
-                .when()
-                .get("/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
+    @When("I perform update on the assignment category")
+    public void performAssignmentCategoryUpdate() {
+        String assignmentId = Serenity.sessionVariableCalled("assignmentID");
+        String eTag = Serenity.sessionVariableCalled("eTag");
+        String actionId = "DetermineCategory";
+//        actionId = "ContactInfo";
+
+
+        String payload = """
+    {
+        "content": {
+            "IncidentType": "Product faulty or unsafe",
+            "IncidentSubType": "Product not as described"            
+        }
     }
-
-    @Then("the submit action metadata is returned")
-    public void submitActionDetailsReturned() {
-        response.then().statusCode(200).body("fields", notNullValue());
-    }
-
-    @When("I perform the submit action {string} on assignment {string} with required data")
-    public void performSubmitAction(String actionId, String assignmentId) {
-        String payload = "{}";
+    """;
 
         response = RequestHelper.authRequest()
+                .header("If-Match", eTag)
+                .header("x-origin-channel", "Web")
+                .contentType("application/json")
+                .accept("application/json")
+                .queryParam("viewType", "none")
                 .body(payload)
-                .when()
-                .post("/prweb/api/application/v2/assignments/" + assignmentId);
+                .log().all()
+                .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
+
+        response.then().log().all();
     }
 
-    @Then("the assignment is successfully submitted")
-    public void assignmentSubmitted() {
-        ResponseHelper.assertSuccessfulResponse(response);
+    @Then("the assignment details are updated")
+    public void assignmentSubmissionReturned() {
+        response.then().statusCode(anyOf(is(200), is(201), is(202)));
     }
 }

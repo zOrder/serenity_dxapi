@@ -6,4 +6,6 @@ Feature: Create and process a Pega case
     Then the case is created successfully
     When I request the assignment details
     Then the assignment details are returned
+    When I perform update on the assignment category
+    Then the assignment details are updated
 
