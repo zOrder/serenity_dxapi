@@ -47,6 +47,7 @@ public class AssignmentStepDefinitions {
         String eTag = Serenity.sessionVariableCalled("eTag");
         String actionId = "DetermineCategory";
 
+        //TODO extract payload to file
         String payload = """
         {
             "content": {
@@ -76,6 +77,7 @@ public class AssignmentStepDefinitions {
         String eTag = Serenity.sessionVariableCalled("eTag");
         String actionId = "ServiceDetails";
 
+        //TODO extract payload to file
         String payload = """
         {
           "content": {
@@ -116,7 +118,7 @@ public class AssignmentStepDefinitions {
                 .body(payload)
                 .log().all()
                 .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
-        
+
         ResponseHelper.storeETag(response);
     }
 
@@ -126,6 +128,7 @@ public class AssignmentStepDefinitions {
         String eTag = Serenity.sessionVariableCalled("eTag");
         String actionId = "ResolutionMethod";
 
+        //TODO extract payload to file
         String payload = """
         {
           "content": {
@@ -148,6 +151,41 @@ public class AssignmentStepDefinitions {
         ResponseHelper.storeETag(response);
     }
 
+    @When("I review and accept the assignment service details")
+    public void reviewAndAcceptAssignmentServiceDetails() {
+        String assignmentId = Serenity.sessionVariableCalled("assignmentID");
+        String eTag = Serenity.sessionVariableCalled("eTag");
+        String actionId = "Review";
+
+        //TODO extract payload to file
+        String payload = """
+        {
+          "content": {
+            "UserConsent": true,
+            "PrivacyPolicy": true
+          },
+          "pageInstructions": []
+        }
+        """;
+
+        response = RequestHelper.authRequest()
+                .header("If-Match", eTag)
+                .header("x-origin-channel", "Web")
+                .contentType("application/json")
+                .accept("application/json")
+                .queryParam("viewType", "page")
+                .body(payload)
+                .log().all()
+                .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
+
+        ResponseHelper.storeETag(response);
+    }
+
+
+    @Then("the assignment details are pending dispatch")
+    public void assignmentDetailsArePendingDispatch() {
+        response.then().body("data.caseInfo.status", equalTo("Pending-Dispatch"));
+    }
 
     @Then("the assignment details are updated")
     public void assignmentSubmissionReturned() {

@@ -13,7 +13,6 @@ public class ResponseHelper {
 
     public static void storeETag(Response response) {
         String eTag = response.getHeader("etag");
-        System.out.println("📦 eTag: " + eTag);
         Serenity.setSessionVariable("eTag").to(eTag);
     }
 }

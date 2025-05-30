@@ -20,3 +20,6 @@ Feature: Create and process a Pega case
     When I select a resolution on the assignment service details
     Then the assignment details are updated
 
+    When I review and accept the assignment service details
+    Then the assignment details are pending dispatch
+
