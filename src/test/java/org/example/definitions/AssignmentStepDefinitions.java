@@ -116,9 +116,38 @@ public class AssignmentStepDefinitions {
                 .body(payload)
                 .log().all()
                 .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
-
-        response.then().log().all();
+        
+        ResponseHelper.storeETag(response);
     }
+
+    @When("I select a resolution on the assignment service details")
+    public void selectResolutionOnAssignmentServiceDetails() {
+        String assignmentId = Serenity.sessionVariableCalled("assignmentID");
+        String eTag = Serenity.sessionVariableCalled("eTag");
+        String actionId = "ResolutionMethod";
+
+        String payload = """
+        {
+          "content": {
+            "PreferredResolutionMethod": "Replacement"
+          },
+          "pageInstructions": []
+        }
+        """;
+
+        response = RequestHelper.authRequest()
+                .header("If-Match", eTag)
+                .header("x-origin-channel", "Web")
+                .contentType("application/json")
+                .accept("application/json")
+                .queryParam("viewType", "page")
+                .body(payload)
+                .log().all()
+                .patch(baseUrl + "/prweb/api/application/v2/assignments/" + assignmentId + "/actions/" + actionId);
+
+        ResponseHelper.storeETag(response);
+    }
+
 
     @Then("the assignment details are updated")
     public void assignmentSubmissionReturned() {
